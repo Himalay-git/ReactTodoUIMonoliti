@@ -24,29 +24,19 @@ stages:
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: '$(System.DefaultWorkingDirectory)/Build'
+              artifact: 'todoui'
               publishLocation: 'pipeline'
 
   - stage: 
     jobs:
-      - job: 
-        steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              buildType: 'current'
-              artifactName: 'todoui'
-              targetPath: '$(System.DefaultWorkingDirectory)/Build'
-
-          - task: CopyFilesOverSSH@0
-            inputs:
-              sshEndpoint: 'ssh'
-              sourceFolder: '(System.DefaultWorkingDirectory)/Build'
-              contents: '**'
-              targetFolder: '/home/username/'
-              readyTimeout: '20000'
-
-          - task: SSH@0
-            inputs:
-              sshEndpoint: 'ssh'
-              runOptions: 'commands'
-              commands: 'sudo cp -r /home/username/* /var/www/html'
-              readyTimeout: '20000'
+    - deployment: devtovm
+      environment: dev
+      strategy:
+        runOnce:
+          deploy:
+            steps:  
+              - task: DownloadPipelineArtifact@2
+                inputs:
+                  buildType: 'current'
+                  artifactName: 'todoui'
+                  targetPath: '/var/www/html'
