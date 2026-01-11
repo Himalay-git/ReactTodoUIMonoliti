@@ -32,7 +32,7 @@ stages:
     - deployment: devtovm
       environment:
         name: dev
-        resourceName: user
+        resourceName: himalay
         resourceType: virtualMachine
       strategy:
         runOnce:
