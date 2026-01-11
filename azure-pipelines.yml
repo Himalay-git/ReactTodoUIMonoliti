@@ -46,4 +46,22 @@ stages:
                   buildVersionToDownload: 'specific'
                   pipelineId: '64'
                   artifactName: 'todoui'
-                  targetPath: '/home/tinu'
+                  targetPath: '/home/tinu/code'
+              - script: |
+                  echo "Stopping nginx..."
+                  sudo systemctl stop nginx
+
+                  echo "Cleaning old files..."
+                  sudo rm -rf /var/www/html/*
+
+                  echo "Copying new files..."
+                  sudo rsync -av /home/tinu/code/* /var/www/html/
+
+                  echo "Fix ownership & permissions..."
+                  sudo chown -R www-data:www-data /var/www/html
+                  sudo find /var/www/html -type d -exec chmod 755 {} \;
+                  sudo find /var/www/html -type f -exec chmod 644 {} \;
+
+                  echo "Starting nginx..."
+                  sudo systemctl start nginx
+                displayName: 'Deploy to /var/www/html'
