@@ -16,10 +16,10 @@ stages:
               targetType: 'inline'
               script: 'npm install'
 
-          # - task: PowerShell@2
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: 'npm run build'
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: 'npm run build'
 
           - task: PublishPipelineArtifact@1
             inputs:
@@ -27,16 +27,18 @@ stages:
               artifact: 'todoui'
               publishLocation: 'pipeline'
 
-  # - stage: 
-  #   jobs:
-  #   - deployment: devtovm
-  #     environment: dev
-  #     strategy:
-  #       runOnce:
-  #         deploy:
-  #           steps:  
-  #             - task: DownloadPipelineArtifact@2
-  #               inputs:
-  #                 buildType: 'current'
-  #                 artifactName: 'todoui'
-  #                 targetPath: '/var/www/html'
+  - stage: 
+    jobs:
+    - deployment: devtovm
+      environment:
+        name: dev
+        resourceName: user
+        resourceType: virtualMachine
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: DownloadPipelineArtifact@2
+                inputs:
+                  buildType: 'current'
+                  targetPath: '$(Pipeline.Workspace)'
