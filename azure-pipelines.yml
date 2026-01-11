@@ -2,30 +2,30 @@ trigger: none
 pool: fire
 
 stages:
-  - stage: 
-    jobs:
-      - job: 
-        steps:
-          - task: NodeTool@0
-            inputs:
-              versionSource: 'spec'
-              versionSpec: '16.x'
+  # - stage: 
+  #   jobs:
+  #     - job: 
+  #       steps:
+  #         - task: NodeTool@0
+  #           inputs:
+  #             versionSource: 'spec'
+  #             versionSpec: '16.x'
 
-          - task: PowerShell@2
-            inputs:
-              targetType: 'inline'
-              script: 'npm install'
+  #         - task: PowerShell@2
+  #           inputs:
+  #             targetType: 'inline'
+  #             script: 'npm install'
 
-          - task: PowerShell@2
-            inputs:
-              targetType: 'inline'
-              script: 'npm run build'
+  #         - task: PowerShell@2
+  #           inputs:
+  #             targetType: 'inline'
+  #             script: 'npm run build'
 
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)/build/'
-              artifact: 'todoui'
-              publishLocation: 'pipeline'
+  #         - task: PublishPipelineArtifact@1
+  #           inputs:
+  #             targetPath: '$(System.DefaultWorkingDirectory)/build/'
+  #             artifact: 'todoui'
+  #             publishLocation: 'pipeline'
 
   - stage: 
     jobs:
@@ -40,5 +40,10 @@ stages:
             steps:
               - task: DownloadPipelineArtifact@2
                 inputs:
-                  buildType: 'current'
-                  targetPath: '/var/www/html'
+                  buildType: 'specific'
+                  project: 'ccca47c3-6b92-47de-ae91-b6ebc02b3dcd'
+                  definition: '5'
+                  buildVersionToDownload: 'specific'
+                  pipelineId: '20260111.5'
+                  artifactName: 'todoui'
+                  targetPath: '/home/tinu'
