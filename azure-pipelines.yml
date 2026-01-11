@@ -40,11 +40,7 @@ stages:
             steps:
               - task: DownloadPipelineArtifact@2
                 inputs:
-                  buildType: 'specific'
-                  project: 'ccca47c3-6b92-47de-ae91-b6ebc02b3dcd'
-                  definition: '5'
-                  buildVersionToDownload: 'specific'
-                  pipelineId: '64'
+                  buildType: 'current'
                   artifactName: 'todoui'
                   targetPath: '/home/tinu/code'
               - script: |
