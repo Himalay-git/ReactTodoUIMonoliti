@@ -23,20 +23,20 @@ stages:
 
           - task: PublishPipelineArtifact@1
             inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)'
+              targetPath: '$(System.DefaultWorkingDirectory)/'
               artifact: 'todoui'
               publishLocation: 'pipeline'
 
-  - stage: 
-    jobs:
-    - deployment: devtovm
-      environment: dev
-      strategy:
-        runOnce:
-          deploy:
-            steps:  
-              - task: DownloadPipelineArtifact@2
-                inputs:
-                  buildType: 'current'
-                  artifactName: 'todoui'
-                  targetPath: '/var/www/html'
+  # - stage: 
+  #   jobs:
+  #   - deployment: devtovm
+  #     environment: dev
+  #     strategy:
+  #       runOnce:
+  #         deploy:
+  #           steps:  
+  #             - task: DownloadPipelineArtifact@2
+  #               inputs:
+  #                 buildType: 'current'
+  #                 artifactName: 'todoui'
+  #                 targetPath: '/var/www/html'
